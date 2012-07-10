@@ -1,5 +1,5 @@
 Source: gwm
-Section: unknown
+Section: admin
 Priority: extra
 Maintainer: Nikolay Bogdanov <nikolay.bogdanov@flant.ru>
 Build-Depends: debhelper (>= 5)
