@@ -1,0 +1,8 @@
+gateways: []
+
+min_uptime: 900 #15 min
+
+check_sites:
+  - 1.1.1.1
+  - 1.2.3.4
+
