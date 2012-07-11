@@ -1,4 +1,4 @@
-gateways: []
+gateways: {}
 
 min_uptime: 900 #15 min
 
