@@ -1,12 +1,12 @@
-Source: gwm
+Source: netgwm
 Section: admin
 Priority: extra
 Maintainer: Nikolay Bogdanov <nikolay.bogdanov@flant.ru>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.8.4
-Homepage: http://flant.ru
+Homepage: http://www.flant.ru
 
-Package: gwm
+Package: netgwm
 Architecture: all
 Depends: ${misc:Depends}, python-yaml, python-minimal
 Description: change uplink
