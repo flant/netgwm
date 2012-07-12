@@ -6,5 +6,5 @@ stamp:
 install:
 	install -d $(DESTDIR)/usr/sbin
 	install -d $(DESTDIR)/etc
-	cp -r $(CURDIR)/gwm $(DESTDIR)/etc
-	install $(CURDIR)/gwm.py $(DESTDIR)/usr/sbin/gwm
+	cp -r $(CURDIR)/netgwm $(DESTDIR)/etc
+	install $(CURDIR)/netgwm.py $(DESTDIR)/usr/sbin/netgwm
