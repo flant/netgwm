@@ -1,3 +1,9 @@
+netgwm (0.1-changeme2) changeme; urgency=low
+
+  * fixes
+
+ -- Nikolay Bogdanov <nikolay.bogdanov@flant.ru>  Thu, 12 Jul 2012 21:38:03 +0400
+
 netgwm (0.1-changeme1) changeme; urgency=low
 
   * Initial release
