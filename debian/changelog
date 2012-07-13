@@ -1,3 +1,9 @@
+netgwm (0.2-changeme1) changeme; urgency=low
+
+  * Fix 
+
+ -- Nikolay Bogdanov <gyrt@gyrt-notebook.loc>  Fri, 13 Jul 2012 18:40:14 +0400
+
 netgwm (0.1-changeme2) changeme; urgency=low
 
   * fixes
