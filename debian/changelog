@@ -1,3 +1,9 @@
+netgwm (0.2-changeme2) changeme; urgency=low
+
+  * Fix
+
+ -- Nikolay Bogdanov <gyrt@buildfarm>  Sat, 14 Jul 2012 00:00:27 +0400
+
 netgwm (0.2-changeme1) changeme; urgency=low
 
   * Fix 
