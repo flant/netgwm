@@ -6,8 +6,22 @@ network gateway when your current ISP goes offline.
 
 Using simple YAML configuration file (have a look at
 samples/netgwm.yml), you define your gateways (by IPs or
-devices) and their priorities. Then, you should netgwm.py
-to the crontab. NetGWM will ping given addresses through
-your current gateway to check your Internet connection.
-If all of these addresses are down - NetGWM will switch
-your current to a working one (with a highest priority).
+devices) and their priorities. Then, you should add
+netgwm.py to the crontab. NetGWM will ping given addresses
+through your current gateway to check your Internet
+connection. If all of these addresses are down, NetGWM will
+switch your current gateway to a working one (with a highest
+priority).
+
+Other features:
+* A gateway is considered as working only after N seconds
+  of successfull checks. This setting ("min_uptime") can be
+  configured in netgwm.yml.
+* When a gateway with a higher priority goes back online
+  NetGWM will automatically switch to it from the current
+  one.
+* NetGWM can maintain the full list of gateways statuses
+  continually for your special needs (e.g. to be used in
+  other software). This data is stored in
+  /var/run/netgwm/gwstore.yml. This setting
+  ("check_all_gateways") can be enabled in netgwm.yml.
