@@ -20,6 +20,10 @@ Other features:
 * When a gateway with a higher priority goes back online
   NetGWM will automatically switch to it from the current
   one.
+* Every time NetGWM switches a network gateway, it will
+  execute all the scripts placed in
+  /etc/netgwm/post-replace.d (for more details, please have
+  a look at samples/post-replace.d/script.sh).
 * NetGWM can maintain the full list of gateways statuses
   continually for your special needs (e.g. to be used in
   other software). This data is stored in
