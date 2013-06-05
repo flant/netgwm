@@ -1,0 +1,3 @@
+# You should a crontab entry to execute NetGWM regularly
+# The best practice is to execute it every minute
+* * * * * root /usr/lib/netgwm/netgwm.py 2>&1 > /dev/null

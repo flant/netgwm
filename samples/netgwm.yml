@@ -1,0 +1,20 @@
+gateways: # IPs for gateways and corresponding priorities
+  thebestone: {ip: 42.42.42.42,  priority: 1}
+  notsogood:  {ip: 42.84.168.42, priority: 2}
+  gprsbackup: {dev: ppp333,      priority: 3}
+
+# Minimum time to consider gateway as working, in seconds
+min_uptime: 900 # 15 min
+
+# Network addresses (IPs or domains) used for checking
+# gateways status. Ping packets will be sent to these
+# addresses through a gateway. If all of them are
+# unavailable, the gateway is considered as gone offline
+check_sites:
+  - 8.8.4.4 # Google public DNS
+  - 4.2.2.2 # Verizon public DNS
+  - something.in.the.wheel.com
+
+# Should NetGWM check all the gateways every time?
+# Disabled by default, used in very special cases only
+check_all_gateways: false

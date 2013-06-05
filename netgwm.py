@@ -1,5 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+#       NetGWM (Network Gateway Manager) is a tool for
+#       automatically switching gateways when Internet
+#       goes offline.
+#       Home page: http://flant.ru/projects/netgwm
+#
+#       Copyright (C) 2012-2013 CJSC Flant (www.flant.ru)
+#       Written by Andrey Polovov <andrey.polovov@flant.ru>
 
 import sys, os, stat
 import yaml
@@ -13,10 +21,13 @@ gwstorefile = '/var/run/netgwm/gwstore.yml'
 modefile    = '/var/lib/netgwm/mode'
 
 def main():
-    parser = optparse.OptionParser(add_help_option = False)
-    parser.add_option('-h', '--help', action = 'help')
-    parser.add_option('-c', '--config', default = configfile)
+    parser = optparse.OptionParser(add_help_option = False, epilog = 'Home page: http://flant.ru/projects/netgwm')
+    parser.add_option('-h', '--help', action = 'help', help = 'display this help and exit')
+    parser.add_option('-c', '--config', default = configfile, help = 'full path to NetGWM configuration file')
     options, args = parser.parse_args()
+
+    if not os.path.isfile(options.config):
+      parser.error('Config file (%s) not found.' % options.config)
 
     config = yaml.load(open(options.config, 'r'))
     if not os.path.exists('/var/run/netgwm/'): os.mkdir('/var/run/netgwm/')
@@ -39,26 +50,26 @@ def main():
 
     if mode == 'auto':
         if currentgw is not None and currentgw.check(config['check_sites']):
-            # если доступен интернет
-            # ищем доступный роутер с приоритетом выше, чем у текущего
+            # If Internet is available...
+            # Looking for a gateway with a higher priority (than current one)
             candidates = [x for x in gateways if x.priority < currentgw.priority]
             for gw in sorted(candidates, key = lambda x: x.priority):
                 if gw.check(config['check_sites']) and gw.wakeuptime < (time.time() - config['min_uptime']):
-                    # роутер работает и работает без сбоев достаточно долго
+                    # This router works and is stable enough
                     gw.setdefault()
                     post_replace_trigger(newgw=gw, oldgw=currentgw)
                     break
                 else: continue
         else:
-            # Срочно переключаемся на самый приоритетный доступный шлюз
+            # Switching to a gateway having highest priority
             for gw in sorted(gateways, key = lambda x: x.priority):
-                if gw == currentgw: continue # и так понятно, что текущий роутер не работает
+                if gw == currentgw: continue # For sure, our current gateway doesn't work
                 if gw.check(config['check_sites']):
                     gw.setdefault()
                     post_replace_trigger(newgw=gw, oldgw=currentgw)
                     break
                 else: continue
-            # ни один роутер не работает
+            # What a pity! No gateway works :(
     else:
         fixedgw = [x for x in gateways if x.identifier == mode].pop()
         if currentgw is None or currentgw != fixedgw:
@@ -95,7 +106,7 @@ class GatewayManager:
         if 'dev' in kwargs and kwargs['dev'] is not None: self.dev = kwargs['dev']
 
         if self.identifier in gwstore: self.wakeuptime = gwstore[self.identifier]['wakeuptime']
-        else: self.wakeuptime = 0 # считаем, что при первом появлении роутера в системе, его аптайм -- много лет.
+        else: self.wakeuptime = 0 # When a gateway appears for the first time, its uptime is set to something BIG
 
     def __eq__(self, other):
         if other is None: return False
@@ -135,8 +146,8 @@ class GatewayManager:
             with open('/var/run/netgwm/'+self.identifier, 'w') as f: f.write(info)
         except: pass
 
-        if self.wakeuptime is None and status is True: self.wakeuptime = time.time() # Если не установлено время подъема и сервак пинганулся -- устанавливае
-        elif status is False:                          self.wakeuptime = None        # Если не пинганулся -- затираем
+        if self.wakeuptime is None and status is True: self.wakeuptime = time.time() # Setting wakeup time if it's not set and server works (has answered to a ping)
+        elif status is False:                          self.wakeuptime = None        # Removing wakeup time if server doesn't work (no ping)
 
         self.is_checked = True
 
@@ -177,4 +188,3 @@ class GatewayManager:
  
 if __name__ == '__main__':
     main()
-
