@@ -4,14 +4,24 @@ NetGWM stands for Network Gateway Manager
 NetGWM is a tool on Python used for automatically switching
 network gateway when your current ISP goes offline.
 
-Using simple YAML configuration file (have a look at
-samples/netgwm.yml), you define your gateways (by IPs or
-devices) and their priorities. Then, you should add
-netgwm.py to the crontab. NetGWM will ping given addresses
-through your current gateway to check your Internet
-connection. If all of these addresses are down, NetGWM will
-switch your current gateway to a working one (with a highest
-priority).
+How to deploy NetGWM?
+0) Install prerequisites:
+   - iproute2
+   - python-yaml (http://pyyaml.org/)
+1) Execute "make install". It will create /usr/lib/netgwm
+   with netgwm.py and /etc/netgwm with configs and samples.
+2) Using simple YAML configuration file (samples/netgwm.yml),
+   you should define your gateways (by IPs or devices) and
+   their priorities.
+3) Add new routing table named "netgwm_check" to your iproute
+   configuration file (/etc/iproute2/rt_tables; there is
+   an example at samples/rt_tables.sample).
+4) Add netgwm.py to the crontab (samples/crontab.sample).
+
+That's all! NetGWM will ping given addresses through your
+current gateway to check your Internet connection. If all
+of these addresses are down, NetGWM will switch your current
+gateway to a working one (with a highest priority).
 
 Other features:
 * A gateway is considered as working only after N seconds

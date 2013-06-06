@@ -1,3 +1,6 @@
-# You should a crontab entry to execute NetGWM regularly
-# The best practice is to execute it every minute
+# This file is an example from default NetGWM installation
+# It should be placed to /etc/cron.d or other system directory
+# used by your cron program
+#
+# The best practice is to execute NetGWM every minute
 * * * * * root /usr/lib/netgwm/netgwm.py 2>&1 > /dev/null

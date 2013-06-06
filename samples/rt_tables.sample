@@ -1,0 +1,17 @@
+# This file is an example from default NetGWM installation
+# It should be named rt_tables and placed to your iproute
+# configuration directory: /etc/iproute2
+#
+# reserved values
+#
+255    local
+254    main
+253    default
+0    unspec
+#
+# local
+#
+#1    inr.ruhep
+
+# This table is used by NetGWM (http://flant.ru/projects/netgwm)
+100    netgwm_check
