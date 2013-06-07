@@ -1,3 +1,9 @@
+netgwm (0.2-changeme4) changeme; urgency=low
+
+  * Fixed readme and doc
+
+ -- Nikolay Bogdanov <gyrt@gyrt-testtop>  Fri, 07 Jun 2013 12:46:06 +0400
+
 netgwm (0.2-changeme3) changeme; urgency=low
 
   * Fix in directory struct
