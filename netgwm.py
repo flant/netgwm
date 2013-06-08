@@ -134,24 +134,29 @@ class GatewayManager:
 
         if ipresult is True:
             for site in check_sites:
-                site_ip = socket.gethostbyname(site)
+                try:
+                    site_ip = socket.gethostbyname(site)
     
-                os.system('/sbin/ip rule add iif lo to %s lookup netgwm_check' % site_ip)
+                    os.system('/sbin/ip rule add iif lo to %s lookup netgwm_check' % site_ip)
     
-                p       = os.popen('ping -q -n -W 1 -c 2 %s 2> /dev/null' % site_ip)
-                pingout = p.read()
-                status  = not p.close()
+                    p       = os.popen('ping -q -n -W 1 -c 2 %s 2> /dev/null' % site_ip)
+                    pingout = p.read()
+                    status  = not p.close()
     
-                os.system('/sbin/ip rule del iif lo to %s lookup netgwm_check' % site_ip)
+                    os.system('/sbin/ip rule del iif lo to %s lookup netgwm_check' % site_ip)
     
-                if status is True:
-                    # ping success
-                    rtt  = re.search('\d+\.\d+/(\d+\.\d+)/\d+\.\d+/\d+\.\d+', pingout).group(1)
-                    info = 'up:'+site+':'+rtt
-                    break
-                else:
-                    # ping fail
-                    info = 'down'
+                    if status is True:
+                        # ping success
+                        rtt  = re.search('\d+\.\d+/(\d+\.\d+)/\d+\.\d+/\d+\.\d+', pingout).group(1)
+                        info = 'up:'+site+':'+rtt
+                        break
+                    else:
+                        # ping fail
+                        info = 'down'
+
+                except:
+                    status = False
+            
             os.system('/sbin/ip route del default %s table netgwm_check' % self.generate_route())
         else:
             status = False
