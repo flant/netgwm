@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rt_tables="/etc/iproute2/rt_tables"
+if (cat "$rt_tables"|grep -q netgwm_check) then
+    sed -i '/netgwm_check/d' "$rt_tables"
+fi
+
