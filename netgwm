@@ -1,0 +1,10 @@
+#!/bin/bash
+
+. /etc/default/netgwm
+
+echo $$ > /var/run/netgwm.pid
+
+while true; do
+	/usr/lib/netgwm/netgwm.py
+	sleep $INTERVAL
+done
