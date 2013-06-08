@@ -30,10 +30,14 @@ import time
 import socket
 import optparse
 import re
+import logging
 
 configfile  = '/etc/netgwm/netgwm.yml'
+logfile     = '/var/log/netgwm.log'
 gwstorefile = '/var/run/netgwm/gwstore.yml'
 modefile    = '/var/lib/netgwm/mode'
+
+logging.basicConfig(format = '%(asctime)s %(message)s', filename = logfile, level = logging.INFO)
 
 def main():
     parser = optparse.OptionParser(add_help_option = False, epilog = 'Home page: http://flant.ru/projects/netgwm')
@@ -172,6 +176,7 @@ class GatewayManager:
         # replace
         print '/sbin/ip route replace default ' + self.generate_route()
         os.system('/sbin/ip route replace default ' + self.generate_route())
+        logging.info('route replaced to %s', self.generate_route())
 
     def generate_route(self):
         res = []
