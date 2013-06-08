@@ -8,6 +8,6 @@ Homepage: http://www.flant.ru
 
 Package: netgwm
 Architecture: all
-Depends: ${misc:Depends}, python-yaml, python-minimal
+Depends: ${misc:Depends}, python-yaml, python-minimal, conntrack
 Description: change uplink
  monitor uplink and change gateway
