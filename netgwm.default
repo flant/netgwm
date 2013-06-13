@@ -1,0 +1,11 @@
+# Defaults for netgwm initscript
+# sourced by /etc/init.d/netgwm
+# installed at /etc/default/netgwm by the maintainer scripts
+
+# Start service on boot?
+START=no
+
+# gateway check interval
+INTERVAL=5
+
+
