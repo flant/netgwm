@@ -13,7 +13,8 @@ How to deploy NetGWM?
    with netgwm.py and /etc/netgwm with configs and samples.
 2) Using simple YAML configuration file (samples/netgwm.yml),
    you should define your gateways (by IPs or devices) and
-   their priorities.
+   their priorities. In /etc/default/netgwm, you can change
+   the period of checking gateways (by default, every 60 sec).
 3) Add new routing table named "netgwm_check" to your iproute
    configuration file (/etc/iproute2/rt_tables; there is
    an example at samples/rt_tables.sample). It's done
