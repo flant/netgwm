@@ -7,6 +7,7 @@ network gateway when your current ISP goes offline.
 How to deploy NetGWM?
 0) Install prerequisites:
    - iproute2
+   - conntrack (http://conntrack-tools.netfilter.org/)
    - python-yaml (http://pyyaml.org/)
 1) Execute "make install". It will create /usr/lib/netgwm
    with netgwm.py and /etc/netgwm with configs and samples.
@@ -15,8 +16,9 @@ How to deploy NetGWM?
    their priorities.
 3) Add new routing table named "netgwm_check" to your iproute
    configuration file (/etc/iproute2/rt_tables; there is
-   an example at samples/rt_tables.sample).
-4) Add netgwm.py to the crontab (samples/crontab.sample).
+   an example at samples/rt_tables.sample). It's done
+   automatically in the Debian package.
+4) Use /etc/init.d/netgwm to launch NetGWM.
 
 That's all! NetGWM will ping given addresses through your
 current gateway to check your Internet connection. If all

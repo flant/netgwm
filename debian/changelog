@@ -1,3 +1,13 @@
+netgwm (0.3+sci1) unstable; urgency=low
+
+  * More automated install
+  * Gateway switch logging
+  * Fix crash when DNS resolving fails
+  * Add init.d script
+  * Add postchange hook to reset all UDP streams
+
+ -- Vladimir Ipatov <vs@ipatov.net>  Sat, 6 Jun 2013 01:35:30 +0400
+
 netgwm (0.2-changeme4) changeme; urgency=low
 
   * Fixed readme and doc

@@ -1,0 +1,8 @@
+debian/files
+debian/netgwm.debhelper.log
+debian/netgwm.postinst.debhelper
+debian/netgwm.prerm.debhelper
+debian/netgwm.substvars
+debian/netgwm/
+stamp
+

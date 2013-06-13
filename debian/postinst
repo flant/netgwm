@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rt_tables="/etc/iproute2/rt_tables"
+if !(cat "$rt_tables"|grep -q netgwm_check) then
+    echo "194    netgwm_check" >> "$rt_tables"
+fi
+
+invoke-rc.d netgwm start
+
