@@ -4,9 +4,9 @@
 #       NetGWM (Network Gateway Manager) is a tool for
 #       automatically switching gateways when Internet
 #       goes offline.
-#       Home page: http://flant.ru/projects/netgwm
+#       Home page: https://flant.ru/projects/netgwm
 #
-#       Copyright (C) 2012-2013 CJSC Flant (www.flant.ru)
+#       Copyright (C) 2012-2017 CJSC Flant (www.flant.ru)
 #       Written by Andrey Polovov <andrey.polovov@flant.ru>
 #
 #       This program is free software; you can redistribute it and/or modify
@@ -70,7 +70,7 @@ def main():
     if mode == 'auto':
         if currentgw is not None and currentgw.check(config['check_sites']):
             # If Internet is available...
-            # Looking for a gateway with a higher priority (than current one)
+            # Looking for a gateway with a higher priority (higher than current one)
             candidates = [x for x in gateways if x.priority < currentgw.priority]
             for gw in sorted(candidates, key = lambda x: x.priority):
                 if gw.check(config['check_sites']) and gw.wakeuptime < (time.time() - config['min_uptime']):
@@ -82,7 +82,7 @@ def main():
         else:
             # Switching to a gateway having highest priority
             for gw in sorted(gateways, key = lambda x: x.priority):
-                if gw == currentgw: continue # For sure, our current gateway doesn't work
+                if gw == currentgw: continue # Our current gateway doesn't work
                 if gw.check(config['check_sites']):
                     gw.setdefault()
                     post_replace_trigger(newgw=gw, oldgw=currentgw)
@@ -132,7 +132,7 @@ class GatewayManager:
         else:             return self.identifier == other.identifier
 
     def check(self, check_sites):
-        # check gw status
+        # Checking gateway status
         print 'checking ' + self.identifier
         ipresult = not os.system('/sbin/ip route replace default %s table netgwm_check' % self.generate_route())
 
@@ -140,33 +140,33 @@ class GatewayManager:
             for site in check_sites:
                 try:
                     site_ip = socket.gethostbyname(site)
-    
+
                     os.system('/sbin/ip rule add iif lo to %s lookup netgwm_check' % site_ip)
-    
+
                     p       = os.popen('ping -q -n -W 1 -c 2 %s 2> /dev/null' % site_ip)
                     pingout = p.read()
                     status  = not p.close()
-    
+
                     os.system('/sbin/ip rule del iif lo to %s lookup netgwm_check' % site_ip)
-    
+
                     if status is True:
-                        # ping success
+                        # Ping has been successful
                         rtt  = re.search('\d+\.\d+/(\d+\.\d+)/\d+\.\d+/\d+\.\d+', pingout).group(1)
                         info = 'up:'+site+':'+rtt
                         break
                     else:
-                        # ping fail
+                        # Ping has failed
                         info = 'down'
 
                 except:
                     status = False
-            
+
             os.system('/sbin/ip route del default %s table netgwm_check' % self.generate_route())
         else:
             status = False
             info   = 'down'
-        
-        try: 
+
+        try:
             with open('/var/run/netgwm/'+self.identifier, 'w') as f: f.write(info)
         except: pass
 
@@ -178,10 +178,10 @@ class GatewayManager:
         return status
 
     def setdefault(self):
-        # replace
+        # Replacing route
         print '/sbin/ip route replace default ' + self.generate_route()
         os.system('/sbin/ip route replace default ' + self.generate_route())
-        logging.info('route replaced to %s', self.generate_route())
+        logging.info('route replaced to: %s', self.generate_route())
 
     def generate_route(self):
         res = []
@@ -194,22 +194,22 @@ class GatewayManager:
         currentgw_ip  = os.popen("/sbin/ip route | grep 'default via' | sed -r 's/default via (([0-9]+\.){3}[0-9]+) dev .+/\\1/g'").read().strip()
         currentgw_dev = os.popen("/sbin/ip route | grep 'default dev' | sed -r 's/default dev ([a-z0-9]+)(\s+.*)?/\\1/g'").read().strip()
 
-        if currentgw_ip == '' and currentgw_dev == '': 
+        if currentgw_ip == '' and currentgw_dev == '':
             return None
         elif currentgw_ip != '':
             for g in [x for x in gateways if hasattr(x, 'ip')]:
-                if g.ip == currentgw_ip: return g 
+                if g.ip == currentgw_ip: return g
         elif currentgw_dev != '':
             for g in [x for x in gateways if hasattr(x, 'dev')]:
-                if g.dev == currentgw_dev: return g 
+                if g.dev == currentgw_dev: return g
         else: raise Exception('current gw is not listed in config.')
-        
+
     @staticmethod
     def store_gateways(gateways):
         gwstore = {}
         for gw in gateways: gwstore[gw.identifier] = {'wakeuptime': gw.wakeuptime}
         open(gwstorefile, 'w').write(yaml.dump(gwstore))
 
- 
+
 if __name__ == '__main__':
     main()
