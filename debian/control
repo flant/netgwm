@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Nikolay Bogdanov <nikolay.bogdanov@flant.ru>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.8.4
-Homepage: http://www.flant.ru
+Homepage: https://flant.ru
 
 Package: netgwm
 Architecture: all

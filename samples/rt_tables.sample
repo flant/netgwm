@@ -13,5 +13,6 @@
 #
 #1    inr.ruhep
 
-# This table is used by NetGWM (http://flant.ru/projects/netgwm)
+# This table is used by NetGWM (please check https://flant.ru/projects/netgwm
+# to learn more details from Russian language documentation)
 100    netgwm_check
